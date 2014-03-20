@@ -105,7 +105,7 @@ PMVIS.ParticleEngine.prototype.init = function() {
   this.mesh = new THREE.ParticleSystem(this.geometry, this.material);
   this.mesh.dynamic = true;
   this.mesh.sortParticles = true;
-  console.log(this.material.uniforms, this.material.attributes);
+  //console.log(this.material.uniforms, this.material.attributes);
 };
 
 PMVIS.ParticleEngine.prototype.initPoints = function() {
