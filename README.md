@@ -15,7 +15,7 @@ area view:
 show the last seven days condition:
 ![][3]
 
-### Thanks for these great libray:
+### Thanks for these great projects:
 * [three.js][4]
 * [jQuery][5]
 * [ThreeCSG][6]
