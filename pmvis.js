@@ -1151,8 +1151,8 @@ PMVIS.SceneManager.prototype = {
   },
 
   switchScene: function(nextSceneName) {
-    console.log("switchScene, nextSceneName: {0}, currentScene: {1}".format(
-      nextSceneName, this.currentScene !== null ? this.currentScene.name : null));
+    //console.log("switchScene, nextSceneName: {0}, currentScene: {1}".format(
+    //  nextSceneName, this.currentScene !== null ? this.currentScene.name : null));
     if (this.scenes[nextSceneName]) {
       if (this.previousScene === null && this.currentScene === null && this.nextScene === null) {
         // first show scene, do not need to switch
@@ -2107,7 +2107,7 @@ PMVIS.ParticleEngine = function() {
       "void main() {",
       "   vColor = vec4(color.xyz, opacity);",
       "   vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);",
-      "   gl_PointSize = size;",
+      "   gl_PointSize = size * (300.0 / length(mvPosition.xyz));",
       "   gl_Position = projectionMatrix * mvPosition;",
       "}",
     ].join("\n"),
@@ -2172,7 +2172,7 @@ PMVIS.ParticleEngine = function() {
 PMVIS.ParticleEngine.prototype = Object.create(PMVIS.UpdaterObject.prototype);
 
 PMVIS.ParticleEngine.prototype.init = function() {
-  console.log(this.texture)
+  //console.log(this.texture)
   this.geometry = new THREE.Geometry();
   this.material = new THREE.ShaderMaterial({
     uniforms: {
@@ -2199,7 +2199,7 @@ PMVIS.ParticleEngine.prototype.init = function() {
   this.mesh = new THREE.ParticleSystem(this.geometry, this.material);
   this.mesh.dynamic = true;
   this.mesh.sortParticles = true;
-  console.log(this.material.uniforms, this.material.attributes);
+  //console.log(this.material.uniforms, this.material.attributes);
 };
 
 PMVIS.ParticleEngine.prototype.initPoints = function() {
@@ -2405,16 +2405,16 @@ PMVIS.GlowFlare = {
     ],
     opacity: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
     size: [
+      250,
+      350,
+      250,
       200,
       300,
+      300,
       200,
-      150,
-      250,
-      250,
-      150,
+      350,
       300,
       250,
-      200,
     ],
     velocity: [
       [0.1, -0.2, 0],
@@ -2440,7 +2440,7 @@ PMVIS.GlowFlare = {
       [0, 0, 0],
       [0, 0, 0],
     ],
-    alive: [1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500],
+    alive: [2500, 2500, 2500, 2500, 2500, 2500, 2500, 2500, 2500, 2500],
   }
 };
 
@@ -2542,7 +2542,7 @@ PMVIS.Rain = {
       var color = 0x9edcb3;
       var _opacity = Math.random();
       var o = _opacity > 1.0 ? 1.0 : _opacity;
-      var size = 30;
+      var size = 50;
       var vY = Math.random() * this.V_Y_BASE + this.V_Y_BIAS;
       var v = [
         Math.random() * this.V_X_BOUND - this.V_X_BIAS,
@@ -3091,7 +3091,7 @@ PMVIS.CityChoseScene.prototype.onTouchNothing = function() {
 
 PMVIS.CityChoseScene.prototype.handleMouseUp = function() {
   if (this.currentSelectRound) {
-    console.log("choose {0}".format(this.currentSelectRound.city));
+    //console.log("choose {0}".format(this.currentSelectRound.city));
     PMVIS.eventPool.dispatchEvent(PMVIS.StartSceneChooseCity,
                                   {city: this.currentSelectRound.city})
   }

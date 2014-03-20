@@ -47,16 +47,16 @@ PMVIS.GlowFlare = {
     ],
     opacity: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
     size: [
+      250,
+      350,
+      250,
       200,
       300,
+      300,
       200,
-      150,
-      250,
-      250,
-      150,
+      350,
       300,
       250,
-      200,
     ],
     velocity: [
       [0.1, -0.2, 0],
@@ -82,7 +82,7 @@ PMVIS.GlowFlare = {
       [0, 0, 0],
       [0, 0, 0],
     ],
-    alive: [1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500, 1500],
+    alive: [2500, 2500, 2500, 2500, 2500, 2500, 2500, 2500, 2500, 2500],
   }
 };
 
@@ -184,7 +184,7 @@ PMVIS.Rain = {
       var color = 0x9edcb3;
       var _opacity = Math.random();
       var o = _opacity > 1.0 ? 1.0 : _opacity;
-      var size = 30;
+      var size = 50;
       var vY = Math.random() * this.V_Y_BASE + this.V_Y_BIAS;
       var v = [
         Math.random() * this.V_X_BOUND - this.V_X_BIAS,
