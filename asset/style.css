@@ -1,0 +1,285 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-color: #000000;
+  overflow: hidden;
+}
+#container {
+  overflow: hidden;
+}
+.header-menu {
+  width: 100%;
+  height: 130px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background:-webkit-gradient(linear, 0 0, 0 bottom, from(#000000), to(#454545));
+  background:-moz-linear-gradient(top, #242424, #454545);
+  margin-top: -170px;
+}
+.menu-left {
+  position: absolute;
+  left: 300px;
+  top: 20px;
+  color: rgba(220, 220, 220, 0.7);
+  -webkit-transition: color 1.0s;
+  -moz-transition: color 1.0s;
+}
+.menu-left:hover {
+  color: rgba(220, 220, 220, 1.0);
+}
+.menu-left-city-name {
+  font-size: 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 5px;
+  width: 250px;
+}
+.menu-left-air-quality {
+  width: 100%;
+  margin-top: 10px;
+  margin-left: 5px;
+}
+.air-quality-number {
+  font-size: 30px;
+}
+.air-quality-level {
+  font-size: 15px;
+  margin-left: 3px;
+  padding-bottom: 2px;
+}
+#last-seven-days {
+  display: inline-block;
+  font-size: 8px;
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  -moz-border-radius: 20px;
+  -webkit-border-radius: 20px;
+  padding: 5px;
+  -webkit-transition: background 0.1s;
+  -moz-transition: color 0.1s;
+  color: #424242;
+}
+#last-seven-days:hover {
+  background: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+}
+.menu-right {
+  position: absolute;
+  right: 120px;
+  top: 20px;
+  width: 400px;
+  height: 100%;
+}
+.round-button {
+  display: inline-block;
+  width: 75px;
+  height: 75px;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+  background: rgba(220, 220, 220, 0.0);
+  -webkit-transition: background 0.2s;
+  -moz-transition: color 0.2s;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  line-height: 75px;
+  clear: both;
+  padding: 2px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+.round-button:hover {
+  background: rgba(220, 220, 220, 0.2);
+  cursor: pointer;
+}
+.footprint {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-size: 15px;
+  color: #383838;
+}
+.bottom-center-menu {
+  position: absolute;
+  text-align: center;
+  bottom: 0px;
+  background:-webkit-gradient(linear, 0 0, 0 bottom, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.8)));
+  background:-moz-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.8));
+  width: 100%;
+  height: 200px;
+  margin-bottom: -200px;
+}
+.progressbar {
+  margin: 0 auto;
+  width: 50%;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  margin-top: 30px;
+}
+.progressbar > span {
+  display: block;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+}
+#air-date-hint {
+  font-size: 25px;
+  text-align: center;
+  padding: 10px;
+  color: rgba(255, 255, 255, 0.8);
+}
+#choose-city-prompt {
+  top: 20px;
+  left: 20px;
+  position: absolute;
+  height: 100px;
+  width: 300px;
+  background: rgba(0, 0, 0, 0);
+  color: rgba(240, 240, 240, 1.0);
+  text-align: center;
+  opacity: 0.0;
+  margin-left: -300px;
+}
+#choose-city-title {
+  font-size: 23px;
+}
+#choose-city-hint {
+  font-size: 15px;
+  padding-left: 10px;
+  margin-top: 5px;
+}
+#choose-city-indicator {
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+  background: rgba(0, 0, 0, 0);
+  color: rgba(255, 255, 255, 0.7);
+  opacity: 0.0;
+  margin-left: -150px;
+  text-align: center;
+}
+#choose-title {
+  font-size: 20px;
+}
+#choose-city {
+  font-size: 25px;
+  margin-top: 2px;
+}
+.center-vertical-outer {
+  display: table;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+.center-vertical-middle {
+  display: table-cell;
+  vertical-align: middle;
+}
+.center-vertical-content {
+  margin-left: auto;
+  margin-right: auto;
+  width: 200px;
+  height: 200px;
+  text-align: center;
+}
+.loading-round {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 150px;
+  text-align: center;
+  border: 2px dashed rgba(200, 200, 200, 0.0);
+  min-height: 150px;
+  min-width: 150px;
+  width: 100px;
+  height: 100px;
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  position: absolute;
+
+  -webkit-animation-name: anim;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  -webkit-animation-duration: 3s;
+  -webkit-animation-direction: normal;
+  -webkit-animation-fill-mode: forwards;
+
+  -moz-animation-name: anim;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-timing-function: linear;
+  -moz-animation-duration: 3s;
+  -moz-animation-direction: normal;
+  -moz-animation-fill-mode: forwards;
+}
+
+@-webkit-keyframes anim {
+  0% {border-color: rgba(200, 200, 200, 0.0);}
+  25% {border-color: rgba(200, 200, 200, 1.0);}
+  50% {border-color: rgba(200, 200, 200, 0.0);}
+  75% {border-color: rgba(200, 200, 200, 1.0);}
+  100% {border-color: rgba(200, 200, 200, 0.0);}
+}
+
+@-moz-keyframes anim {
+  0% {border-color: rgba(200, 200, 200, 0.0);}
+  25% {border-color: rgba(200, 200, 200, 1.0);}
+  50% {border-color: rgba(200, 200, 200, 0.0);}
+  75% {border-color: rgba(200, 200, 200, 1.0);}
+  100% {border-color: rgba(200, 200, 200, 0.0);}
+}
+
+#round-1 {
+  -webkit-animation-delay: 0s;
+  -webkit-transform: scale(1.0);
+
+  -moz-animation-delay: 0s;
+  -moz-transform: scale(1.0);
+}
+#round-2 {
+  -webkit-animation-delay: 2s;
+  -webkit-transform: scale(1.2);
+
+  -moz-animation-delay: 2s;
+  -moz-transform: scale(1.2);
+}
+#round-3 {
+  -webkit-animation-delay: 4s;
+  -webkit-transform: scale(1.4);
+
+  -moz-animation-delay: 4s;
+  -moz-transform: scale(1.4);
+}
+#round-4 {
+  -webkit-animation-delay: 6s;
+  -webkit-transform: scale(1.6);
+
+  -moz-animation-delay: 6s;
+  -moz-transform: scale(1.6);
+}
+#round-5 {
+  -webkit-animation-delay: 8s;
+  -webkit-transform: scale(1.8);
+
+  -moz-animation-delay: 8s;
+  -moz-transform: scale(1.8);
+}
+#round-6 {
+  -webkit-animation-delay: 10s;
+  -webkit-transform: scale(2.0);
+
+  -moz-animation-delay: 10s;
+  -moz-transform: scale(2.0);
+}

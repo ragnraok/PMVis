@@ -1,0 +1,94 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>App Test</title>
+    <link rel="stylesheet" href="asset/style.css" />
+    <script type="text/javascript" src="lib/three.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-2.1.0.min.js"></script>
+  </head>
+  <body>
+    <!-- loading box -->
+    <div class="center-vertical-outer" id="loading-box">
+      <div class="center-vertical-middle">
+        <div class="center-vertical-content">
+          <div class="loading-round" id="round-1">
+            Loading...
+          </div>
+          <div class="loading-round" id="round-2">
+          </div>
+          <div class="loading-round" id="round-3">
+          </div>
+          <div class="loading-round" id="round-4">
+          </div>
+          <div class="loading-round" id="round-5">
+          </div>
+          <div class="loading-round" id="round-6">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="app-content">
+      <!-- CityChoseScene -->
+      <div id="choose-city-prompt">
+        <div id="choose-city-title">Plase choose an area</div>
+        <div id="choose-city-hint">
+          The different rings indicate different area, the size of rings indicate the pollution level.
+        </div>
+      </div>
+      <div id="choose-city-indicator">
+        <div id="choose-title">Your Choice:</div>
+        <div id="choose-city">Guangzhou</div>
+      </div>
+
+      <div id="container">
+      </div>
+      <!-- end CityChoseScene -->
+
+
+      <!-- CityScene -->
+      <div class="header-menu">
+        <div class="menu-left">
+          <div class="menu-left-city-name">
+            Pearl River Delta
+          </div>
+          <div class="menu-left-air-quality">
+            <span class="air-quality-number">50</span>
+            <span class="air-quality-level">(Good)</span>
+            <div id="last-seven-days">
+              Last Seven Days
+            </div>
+          </div>
+        </div>
+        <div class="menu-right">
+          <div class="round-button" id="beijing">
+            Beijing
+          </div>
+          <div class="round-button" id="shanghai">
+            Shanghai
+          </div>
+          <div class="round-button" id="guangzhou">
+            Guangzhou
+          </div>
+          <div class="round-button" id="back">
+            Back
+          </div>
+        </div>
+      </div>
+      <div class="bottom-center-menu">
+        <div class="progressbar" id="air-progressbar">
+          <span id="progress" style="width: 30%;"></span>
+        </div>
+        <div id="air-date-hint">2013.3.10</div>
+      </div>
+      <div class="footprint">
+        <span>Last Updated: </span><span id="last-update-date">2014.3.10</span>
+      </div>
+      <!-- end CityScene -->
+    </div>
+  </body>
+</html>
+<script type="text/javascript" src="pmvis.js"></script>
+<script type="text/javascript">
+  new PMVIS.AppManager().start();
+</script>
