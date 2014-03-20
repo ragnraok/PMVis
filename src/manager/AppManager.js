@@ -27,7 +27,7 @@ PMVIS.AppManager.prototype = {
       PMVIS.DomManager.loadingBox.animate({
         opacity: 0.0,
       }, 300, _this._showAppContent);
-    }, 1000);
+    }, 2000);
   },
 
   _showAppContent: function() {
