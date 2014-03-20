@@ -27,7 +27,7 @@ PMVIS.ResourceLoader.prototype = {
     THREE.ImageUtils.loadTexture(textureObj.path, new THREE.UVMapping(), function(texture) {
       textureObj.isLoad = true;
       PMVIS[textureName] = texture;
-      //console.log("finish load {0}".format(textureObj.path));
+      console.log("finish load {0}".format(textureObj.path));
       if (_this.isAllTextureLoaded()) {
         _this.setupCityTextureMap();
         if (_this.onFinishLoadTextures) {

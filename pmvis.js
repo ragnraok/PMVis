@@ -1520,11 +1520,11 @@ PMVIS.AppManager.prototype = {
 
   afterLoadResource: function() {
     var _this = this;
-    //setTimeout(function() {
-    //  PMVIS.DomManager.loadingBox.animate({
-    //    opacity: 0.0,
-    //  }, 300, _this._showAppContent);
-    //}, 2000);
+    setTimeout(function() {
+      PMVIS.DomManager.loadingBox.animate({
+        opacity: 0.0,
+      }, 300, _this._showAppContent);
+    }, 2000);
   },
 
   _showAppContent: function() {
