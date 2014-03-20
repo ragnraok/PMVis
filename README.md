@@ -16,10 +16,18 @@ show the last seven days condition:
 ![][3]
 
 ### Thanks for these great libray:
-
 * [three.js][4]
 * [jQuery][5]
 * [ThreeCSG][6]
+
+
+### Development
+
+```shell
+python build.py
+python -m SimpleHTTPServer
+```
+Then open ``127.0.0.1:8000``
 
 
 # The MIT License (MIT)
