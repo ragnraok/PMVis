@@ -78,7 +78,7 @@ PMVIS.ParticleEngine = function() {
 PMVIS.ParticleEngine.prototype = Object.create(PMVIS.UpdaterObject.prototype);
 
 PMVIS.ParticleEngine.prototype.init = function() {
-  console.log(this.texture)
+  //console.log(this.texture)
   this.geometry = new THREE.Geometry();
   this.material = new THREE.ShaderMaterial({
     uniforms: {

@@ -72,9 +72,9 @@ PMVIS.CITY_MAP = {
   beijing: {
     texture: PMVIS.BEIJING_MAP_TEXTURE,
   },
-  xian: {
-    texture: PMVIS.XIAN_MAP_TEXTURE,
-  }
+  //xian: {
+  //  texture: PMVIS.XIAN_MAP_TEXTURE,
+  //}
 
 }
 
@@ -115,10 +115,10 @@ PMVIS.TEXTURES_LOAD_MAP = {
     path: PMVIS.BEIJING_MAP_TEXTURE_PATH,
     isLoad: false,
   },
-  XIAN_MAP_TEXTURE: {
-    path: PMVIS.XIAN_MAP_TEXTURE_PATH,
-    isLoad: false,
-  }
+  //XIAN_MAP_TEXTURE: {
+  //  path: PMVIS.XIAN_MAP_TEXTURE_PATH,
+  //  isLoad: false,
+  //}
 };
 
 // events name

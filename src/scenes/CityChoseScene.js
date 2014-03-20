@@ -178,7 +178,7 @@ PMVIS.CityChoseScene.prototype.onTouchNothing = function() {
 
 PMVIS.CityChoseScene.prototype.handleMouseUp = function() {
   if (this.currentSelectRound) {
-    console.log("choose {0}".format(this.currentSelectRound.city));
+    //console.log("choose {0}".format(this.currentSelectRound.city));
     PMVIS.eventPool.dispatchEvent(PMVIS.StartSceneChooseCity,
                                   {city: this.currentSelectRound.city})
   }

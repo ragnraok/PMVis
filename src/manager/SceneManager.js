@@ -99,8 +99,8 @@ PMVIS.SceneManager.prototype = {
   },
 
   switchScene: function(nextSceneName) {
-    console.log("switchScene, nextSceneName: {0}, currentScene: {1}".format(
-      nextSceneName, this.currentScene !== null ? this.currentScene.name : null));
+    //console.log("switchScene, nextSceneName: {0}, currentScene: {1}".format(
+    //  nextSceneName, this.currentScene !== null ? this.currentScene.name : null));
     if (this.scenes[nextSceneName]) {
       if (this.previousScene === null && this.currentScene === null && this.nextScene === null) {
         // first show scene, do not need to switch

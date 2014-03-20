@@ -52,6 +52,6 @@ PMVIS.ResourceLoader.prototype = {
     PMVIS.CITY_MAP.guangzhou.texture = PMVIS.GUANGZHOU_MAP_TEXTURE;
     PMVIS.CITY_MAP.shanghai.texture = PMVIS.SHANGHAI_MAP_TEXTURE;
     PMVIS.CITY_MAP.beijing.texture = PMVIS.BEIJING_MAP_TEXTURE;
-    PMVIS.CITY_MAP.xian.texture = PMVIS.XIAN_MAP_TEXTURE;
+    //PMVIS.CITY_MAP.xian.texture = PMVIS.XIAN_MAP_TEXTURE;
   }
 };

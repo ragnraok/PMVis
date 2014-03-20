@@ -72,9 +72,9 @@ PMVIS.CITY_MAP = {
   beijing: {
     texture: PMVIS.BEIJING_MAP_TEXTURE,
   },
-  xian: {
-    texture: PMVIS.XIAN_MAP_TEXTURE,
-  }
+  //xian: {
+  //  texture: PMVIS.XIAN_MAP_TEXTURE,
+  //}
 
 }
 
@@ -115,10 +115,10 @@ PMVIS.TEXTURES_LOAD_MAP = {
     path: PMVIS.BEIJING_MAP_TEXTURE_PATH,
     isLoad: false,
   },
-  XIAN_MAP_TEXTURE: {
-    path: PMVIS.XIAN_MAP_TEXTURE_PATH,
-    isLoad: false,
-  }
+  //XIAN_MAP_TEXTURE: {
+  //  path: PMVIS.XIAN_MAP_TEXTURE_PATH,
+  //  isLoad: false,
+  //}
 };
 
 // events name
@@ -3174,7 +3174,7 @@ PMVIS.ResourceLoader.prototype = {
     THREE.ImageUtils.loadTexture(textureObj.path, new THREE.UVMapping(), function(texture) {
       textureObj.isLoad = true;
       PMVIS[textureName] = texture;
-      //console.log("finish load {0}".format(textureObj.path));
+      console.log("finish load {0}".format(textureObj.path));
       if (_this.isAllTextureLoaded()) {
         _this.setupCityTextureMap();
         if (_this.onFinishLoadTextures) {
@@ -3199,7 +3199,7 @@ PMVIS.ResourceLoader.prototype = {
     PMVIS.CITY_MAP.guangzhou.texture = PMVIS.GUANGZHOU_MAP_TEXTURE;
     PMVIS.CITY_MAP.shanghai.texture = PMVIS.SHANGHAI_MAP_TEXTURE;
     PMVIS.CITY_MAP.beijing.texture = PMVIS.BEIJING_MAP_TEXTURE;
-    PMVIS.CITY_MAP.xian.texture = PMVIS.XIAN_MAP_TEXTURE;
+    //PMVIS.CITY_MAP.xian.texture = PMVIS.XIAN_MAP_TEXTURE;
   }
 };
 'use strict';
