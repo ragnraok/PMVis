@@ -29,6 +29,10 @@ PMVIS.DomManager = (function() {
     aqiButton: "#aqi",
     pm25Button: "#pm25",
     pm10Button: "#pm10",
+    modalBox: ".modal-box",
+    cityGraph: "#graph-content",
+    cityGraphAirDate: "#air-date",
+    cityGraphAirQuality: "#air-quality",
   };
 
   for (var v in domMap) {

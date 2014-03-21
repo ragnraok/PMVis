@@ -374,7 +374,7 @@ PMVIS.TODAY_CITY_AVG_AIR = {
 
 // last seven days (AQI)
 PMVIS.LAST_SEVEN_DAY_AIR = {
-  "2014.3.11": {
+  "2014-03-05": {
     guangzhou: 150,
     dongguan: 150,
     huizhou: 120,
@@ -405,7 +405,7 @@ PMVIS.LAST_SEVEN_DAY_AIR = {
     zhangjiakou: 100,
     baoding: 100,
   },
-  "2014.3.10": {
+  "2014-03-06": {
     guangzhou: 50,
     dongguan: 100,
     huizhou: 100,
@@ -436,7 +436,7 @@ PMVIS.LAST_SEVEN_DAY_AIR = {
     zhangjiakou: 100,
     baoding: 100,
   },
-  "2014.3.9": {
+  "2014-03-07": {
     guangzhou: 50,
     dongguan: 100,
     huizhou: 100,
@@ -467,7 +467,7 @@ PMVIS.LAST_SEVEN_DAY_AIR = {
     zhangjiakou: 100,
     baoding: 100,
   },
-  "2014.3.8": {
+  "2014-03-08": {
     guangzhou: 50,
     dongguan: 100,
     huizhou: 100,
@@ -498,7 +498,7 @@ PMVIS.LAST_SEVEN_DAY_AIR = {
     zhangjiakou: 100,
     baoding: 100,
   },
-  "2014.3.7": {
+  "2014-03-09": {
     guangzhou: 50,
     dongguan: 100,
     huizhou: 100,
@@ -529,7 +529,7 @@ PMVIS.LAST_SEVEN_DAY_AIR = {
     zhangjiakou: 100,
     baoding: 100,
   },
-  "2014.3.6": {
+  "2014-03-10": {
     guangzhou: 150,
     dongguan: 100,
     huizhou: 100,
@@ -560,7 +560,7 @@ PMVIS.LAST_SEVEN_DAY_AIR = {
     zhangjiakou: 100,
     baoding: 100,
   },
-  "2014.3.5": {
+  "2014-03-11": {
     guangzhou: 50,
     dongguan: 100,
     huizhou: 100,
