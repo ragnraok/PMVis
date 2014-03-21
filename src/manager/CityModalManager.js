@@ -30,6 +30,7 @@ PMVIS.CityModalManager.prototype = {
         },
         resize: true,
         grid: true,
+        axes: false,
         parseTime: false,
       });
     } else {
