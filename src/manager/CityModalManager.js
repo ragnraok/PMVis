@@ -32,6 +32,7 @@ PMVIS.CityModalManager.prototype = {
         grid: true,
         //axes: false,
         parseTime: false,
+        ymax: "auto[300]",
       });
     } else {
       this.graph.setData(data);
