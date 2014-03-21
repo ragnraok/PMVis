@@ -4,23 +4,11 @@
  */
 
 PMVIS.HeaderMenuManager = function() {
-  //this.domMap = {
-  //  headerMenu: ".header-menu",
-  //  cityBox: ".menu-left-city-name",
-  //  airQualityBox: ".menu-left-air-quality",
-  //  airQualityNumberBox: ".air-quality-number",
-  //  airQualityLevelBox: ".air-quality-level",
-  //  lastSevenDayButton: "#last-seven-days",
-  //  beijingButton: "#beijing",
-  //  shanghaiButton: "#shanghai",
-  //  guangzhouButton: "#guangzhou",
-  //  backButton: "#back"
-  //};
-  //this.initDomVariables();
   this.headerMenuHeight = 170;
   this.city = null;
   this.isShow = false;
   this.isChangingCity = false;
+  this.currentMeasure = null;
 
   this._afterCitySceneFinishLoad = this._afterCitySceneFinishLoad.bind(this);
   this.afterShowMenu = this.afterShowMenu.bind(this);
@@ -33,11 +21,6 @@ PMVIS.HeaderMenuManager = function() {
 };
 
 PMVIS.HeaderMenuManager.prototype = {
-  //initDomVariables: function() {
-  //  for (var v in this.domMap) {
-  //    this[v] = $(this.domMap[v]);
-  //  }
-  //},
   init: function(startCity) {
     this.city = startCity;
     PMVIS.DomManager.headerMenu.css("margin-top", this.headerMenuHeight * -1);
@@ -64,6 +47,10 @@ PMVIS.HeaderMenuManager.prototype = {
     PMVIS.eventPool.addEventListener(PMVIS.AreaHistoryStart, this.onHistoryStart);
     PMVIS.eventPool.addEventListener(PMVIS.AreaHistoryFinish, this.onHistoryEnd);
     PMVIS.eventPool.addEventListener(PMVIS.ChangeMeasureStart, function(event) {
+      var measure = event.nextMeasure;
+      if (measure) {
+        _this.currentMeasure = measure;
+      }
       _this._disableButtons();
     });
     PMVIS.eventPool.addEventListener(PMVIS.ChangeMeasureFinish, function(event) {
@@ -245,11 +232,26 @@ PMVIS.HeaderMenuManager.prototype = {
     var c = city[0].toUpperCase() + city.substring(1);
     PMVIS.DomManager.cityBox.text(c);
 
-    var air = PMVIS.TODAY_CITY_AIR[city];
-    if (air) {
-      PMVIS.DomManager.airQualityNumberBox.text(air);
-      PMVIS.DomManager.airQualityLevelBox.text("({0})".format(this.getCityAirLevel(air)));
+    var measureData = this.getCurrentMeasureData();
+    if (measureData !== null) {
+      var air = measureData[city];
+      if (air) {
+        PMVIS.DomManager.airQualityNumberBox.text(air);
+        PMVIS.DomManager.airQualityLevelBox.text("({0})".format(this.getCityAirLevel(air)));
+      }
     }
+  },
+
+  getCurrentMeasureData: function() {
+   var result = null;
+   if (this.currentMeasure === PMVIS.AQI) {
+     result = PMVIS.TODAY_CITY_AIR;
+   } else if (this.currentMeasure === PMVIS.PM_2_5) {
+     result = PMVIS.TODAY_CITY_AIR_PM_2_5;
+   } else if (this.currentMeasure === PMVIS.PM_10) {
+     result = PMVIS.TODAY_CITY_AIR_PM_10;
+   }
+   return result;
   },
 
   resumeMenuLeft: function() {

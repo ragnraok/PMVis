@@ -49,6 +49,7 @@ PMVIS.LeftMenuManager.prototype = {
 
   showMenu: function() {
     PMVIS.DomManager.leftMenu.css("display", "inline");
+    PMVIS.DomManager.leftMenu.css("opacity", "0");
     PMVIS.DomManager.leftMenu.animate({
       opacity: 1.0,
     }, 300);
