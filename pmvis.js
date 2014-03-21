@@ -143,6 +143,14 @@ PMVIS.CityChoseSceneFinishLoad = "CityChoseSceneFinishLoad";
 PMVIS.OnTouchCityRound = "OnTouchCityRound";
 PMVIS.OnTouchNothingCityRound = "OnTouchNothingCityRound";
 PMVIS.ScheduleSwitchScene = "ScheduleSwitchScene";
+PMVIS.AirChangeToDiffMeasure = "AirChangeToDiffMeasure";
+PMVIS.ChangeMeasureStart = "ChangeMeasureStart";
+PMVIS.ChangeMeasureFinish = "ChangeMeasureFinish";
+
+// air quality measurement
+PMVIS.AQI = "aqi";
+PMVIS.PM_2_5 = "pm2.5";
+PMVIS.PM_10 = "pm10";
 
 // scenes name
 PMVIS.TEST_SCENE = 'TestScene';
@@ -257,7 +265,7 @@ PMVIS.CITY_POS = {
 
 // city air data
 // it just test data here
-// today
+// today (AQI)
 PMVIS.TODAY_CITY_AIR = {
   guangzhou: 50,
   dongguan: 100,
@@ -289,14 +297,81 @@ PMVIS.TODAY_CITY_AIR = {
   zhangjiakou: 100,
   baoding: 100,
 };
-// average value
+
+// today city pm2.5
+PMVIS.TODAY_CITY_AIR_PM_2_5 = {
+  guangzhou: 50,
+  dongguan: 70,
+  huizhou: 80,
+  foshan: 75,
+  jiangmen: 80,
+  zhongshan: 100,
+  zhuhai:10,
+  shenzhen: 80,
+  zhaoqing: 100,
+  shanghai: 45,
+  suzhou: 100,
+  hangzhou: 100,
+  nanjing: 100,
+  ningbo: 100,
+  wuhan: 100,
+  wenzhou: 100,
+  hefei: 100,
+  jinhua: 100,
+  jiujiang: 100,
+  beijing: 50,
+  langfang: 100,
+  tianjin: 100,
+  tangshan: 100,
+  qinhuangdao: 100,
+  cangzhou: 100,
+  shijiangzhuang: 100,
+  dezhou: 90,
+  zhangjiakou: 100,
+  baoding: 80,
+};
+
+// today city pm10
+PMVIS.TODAY_CITY_AIR_PM_10 = {
+  guangzhou: 20,
+  dongguan: 50,
+  huizhou: 120,
+  foshan: 150,
+  jiangmen: 80,
+  zhongshan: 90,
+  zhuhai: 85,
+  shenzhen: 60,
+  zhaoqing: 80,
+  shanghai:120,
+  suzhou: 150,
+  hangzhou: 80,
+  nanjing: 90,
+  ningbo: 20,
+  wuhan: 10,
+  wenzhou: 20,
+  hefei: 150,
+  jinhua: 100,
+  jiujiang: 100,
+  beijing: 50,
+  langfang: 150,
+  tianjin: 150,
+  tangshan: 100,
+  qinhuangdao: 100,
+  cangzhou: 130,
+  shijiangzhuang: 100,
+  dezhou: 120,
+  zhangjiakou: 100,
+  baoding: 100,
+};
+
+// average value (AQI)
 PMVIS.TODAY_CITY_AVG_AIR = {
   beijing: 200,
   shanghai: 100,
   guangzhou: 50
 };
 
-// last seven days
+// last seven days (AQI)
 PMVIS.LAST_SEVEN_DAY_AIR = {
   "2014.3.11": {
     guangzhou: 150,
@@ -1554,6 +1629,11 @@ PMVIS.CityIndicators = function(city) {
 
   this.changeToNextDay = this.changeToNextDay.bind(this);
   this.resumeHeight = this.resumeHeight.bind(this);
+
+  this.currentMeasure = PMVIS.AQI;
+  this.nextMeasure = null;
+  this._isChangingMeasure = false;
+
   var _this = this;
   PMVIS.eventPool.addEventListener(PMVIS.ScheduleChangeToNextDay, function(event) {
     _this.changeToNextDay(event.day)
@@ -1579,6 +1659,50 @@ PMVIS.CityIndicators.prototype = {
 
  },
 
+ setCurrentAirMeasure: function(measure) {
+   if (measure !== PMVIS.AQI
+     || measure !== PMVIS.PM_10
+       || measure !== PMVIS.PM_2_5) {
+     return;
+   }
+   this.currentMeasure = measure;
+ },
+
+ scheduleChangeMeasure: function(nextMeasure) {
+   if (nextMeasure !== PMVIS.AQI
+     || nextMeasure !== PMVIS.PM_10
+       || nextMeasure !== PMVIS.PM_2_5) {
+     return;
+   }
+   this._isChangingMeasure = true;
+   this.nextMeasure = nextMeasure;
+   var nextMeasureData = this._getMeasureData(this.nextMeasure);
+    this.indicators.forEach(function(element) {
+      var city = element.city;
+      var cityAir = nextMeasureData[city];
+      var height = _this.airQualityToHeight(cityAir);
+      element.changeHeight(height);
+    });
+
+   PMVIS.eventPool.dispatchEvent(PMVIS.ChangeMeasureStart, {nextMeasure: this.nextMeasure});
+ },
+
+ _getMeasureData: function(measure) {
+   var result = null;
+   if (measure === PMVIS.AQI) {
+     result = PMVIS.TODAY_CITY_AIR;
+   } else if (measure === PMVIS.PM_2_5) {
+     result = PMVIS.TODAY_CITY_AIR_PM_2_5;
+   } else if (measure === PMVIS.PM_10) {
+     result = PMVIS.TODAY_CITY_AIR_PM_10;
+   }
+   return result;
+ },
+
+ getCurrentMeasureData: function() {
+   return this._getMeasureData(this.currentMeasure);
+ },
+
   setCity: function(city) {
     this.city = city;
     this._initIndicatorCoordsAndHeight();
@@ -1587,11 +1711,12 @@ PMVIS.CityIndicators.prototype = {
   _initIndicatorCoordsAndHeight: function() {
     if (this.city) {
       var cityCoords = PMVIS.CITY_POS[this.city];
+      var currentAirObject = this.getCurrentMeasureData();
       if (cityCoords) {
         var index = 0;
         for (var city in cityCoords) {
           var coord = cityCoords[city];
-          var airQuality = PMVIS.TODAY_CITY_AIR[city];
+          var airQuality = currentAirObject[city];
           this.indicators[index].city = city;
           this.indicators[index].setPos(coord.x, 0, coord.z);
           this.indicators[index].setHeight(this.airQualityToHeight(airQuality));
@@ -1604,7 +1729,11 @@ PMVIS.CityIndicators.prototype = {
   },
 
   airQualityToHeight: function(airQuality) {
-    return airQuality / 2;
+    var result;
+    result = airQuality / 1.5;
+    result = result < 35 ? 35 : result;
+    result = result > 300 ? 300 : result;
+    return result;
   },
 
   changeCity: function(city) {
@@ -1652,6 +1781,7 @@ PMVIS.CityIndicators.prototype = {
   update: function() {
     var updateCount = 0;
     var changeDayCount = 0;
+    var changeMeasureCount = 0;
     for (var i = 0; i < this.currentAreaCityCount; i++) {
       this.indicators[i].update();
       if (this.indicators[i].isUpdateFinish()) {
@@ -1659,6 +1789,9 @@ PMVIS.CityIndicators.prototype = {
       }
       if (this.indicators[i].isChangeHeightFinish() && this._isChangingToNextDay) {
         changeDayCount++;
+      }
+      if (this.indicators[i].isChangeHeightFinish() && this._isChangingMeasure) {
+        changeMeasureCount++;
       }
     }
     if (updateCount === this.currentAreaCityCount) {
@@ -1669,6 +1802,12 @@ PMVIS.CityIndicators.prototype = {
       console.log("dispatch IndicatorChangeToNextDayFinish");
       PMVIS.eventPool.dispatchEvent(PMVIS.IndicatorChangeToNextDayFinish,
                                     {day: this.nextDay});
+    }
+    if (changeMeasureCount === this.currentAreaCityCount && this._isChangingMeasure) {
+      this._isChangingMeasure = false;
+      this.currentMeasure = this.nextMeasure;
+      this.nextMeasure = null;
+      PMVIS.eventPool.dispatchEvent(PMVIS.ChangeMeasureFinish, {measure: this.currentMeasure});
     }
   },
 
@@ -1717,9 +1856,10 @@ PMVIS.CityIndicators.prototype = {
 
   resumeHeight: function() {
     var _this = this;
+    var currentAirObject = this.getCurrentMeasureData();
     this.indicators.forEach(function(element) {
       var city = element.city;
-      var cityAir = PMVIS.TODAY_CITY_AIR[city];
+      var cityAir = currentAirObject[city];
       var height = _this.airQualityToHeight(cityAir);
       element.changeHeight(height);
     });
@@ -1727,6 +1867,10 @@ PMVIS.CityIndicators.prototype = {
 
   isChangingToNextDay: function() {
     return this._isChangingToNextDay;
+  },
+
+  isChangingMeasure: function() {
+    return this._isChangingMeasure;
   },
 
 };
@@ -3055,13 +3199,13 @@ PMVIS.CityChoseScene.prototype.update = function() {
     }
   }
   if (roundCount === this.rounds.length && !this._isSetMouseObject) {
-      this.renderScene.setMouseIntersectObjects(this.rounds);
-      this._isSetMouseObject = true;
+    this.renderScene.setMouseIntersectObjects(this.rounds);
+    this._isSetMouseObject = true;
   }
   if (roundCount === this.rounds.length && !this._isDipatchFinishLoadEvent) {
-      PMVIS.eventPool.dispatchEvent(PMVIS.CityChoseSceneFinishLoad);
-      this._isDipatchFinishLoadEvent = true;
-     }
+    PMVIS.eventPool.dispatchEvent(PMVIS.CityChoseSceneFinishLoad);
+    this._isDipatchFinishLoadEvent = true;
+  }
 };
 
 PMVIS.CityChoseScene.prototype.onTouchRound = function(object) {
@@ -3072,6 +3216,7 @@ PMVIS.CityChoseScene.prototype.onTouchRound = function(object) {
   for (var i = 0; i < this.rounds.length; i++) {
     this.rounds[i].onUnTouch();
   }
+  console.log("touch " + object.city);
   this.renderScene.container.style.cursor = 'pointer';
   object.onTouch();
   this.currentSelectRound = object;
@@ -3091,7 +3236,7 @@ PMVIS.CityChoseScene.prototype.onTouchNothing = function() {
 
 PMVIS.CityChoseScene.prototype.handleMouseUp = function() {
   if (this.currentSelectRound) {
-    //console.log("choose {0}".format(this.currentSelectRound.city));
+    console.log("choose {0}".format(this.currentSelectRound.city));
     PMVIS.eventPool.dispatchEvent(PMVIS.StartSceneChooseCity,
                                   {city: this.currentSelectRound.city})
   }

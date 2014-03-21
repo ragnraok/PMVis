@@ -25,6 +25,10 @@ PMVIS.DomManager = (function() {
     lastUpdate: "#last-update-date",
     loadingBox: "#loading-box",
     appContent: "#app-content",
+    leftMenu: "#air-measurement-menu",
+    aqiButton: "#aqi",
+    pm25Button: "#pm2.5",
+    pm10Button: "#pm10",
   };
 
   for (var v in domMap) {

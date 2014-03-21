@@ -184,6 +184,8 @@ body {
   position: absolute;
   height: 100%;
   width: 100%;
+  top: 0px;
+  left: 0px;
 }
 .center-vertical-middle {
   display: table-cell;
@@ -289,4 +291,22 @@ body {
   color: rgba(255, 255, 255, 1.0);
   width: 100%;
   text-align: center;
+}
+.left-menu {
+  width: 100px;
+  left: 20px;
+  top: 120px;
+  position: absolute;
+}
+.left-menu-button-selected {
+  background: rgba(220, 220, 220, 0.2);
+}
+
+.left-menu-button {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

@@ -13,12 +13,22 @@ PMVIS.CityIndicators = function(city) {
 
   this.changeToNextDay = this.changeToNextDay.bind(this);
   this.resumeHeight = this.resumeHeight.bind(this);
+
+  this.currentMeasure = PMVIS.AQI;
+  this.nextMeasure = null;
+  this._isChangingMeasure = false;
+
   var _this = this;
   PMVIS.eventPool.addEventListener(PMVIS.ScheduleChangeToNextDay, function(event) {
     _this.changeToNextDay(event.day)
   });
   PMVIS.eventPool.addEventListener(PMVIS.AreaHistoryFinish, function(event) {
     setTimeout(_this.resumeHeight, 100);
+  });
+  PMVIS.eventPool.addEventListener(PMVIS.ScheduleChangeMeasure, function(event) {
+    if (event.measure) {
+      _this.scheduleChangeMeasure(event.measure);
+    }
   });
 
   this.init();
@@ -38,6 +48,50 @@ PMVIS.CityIndicators.prototype = {
 
  },
 
+ setCurrentAirMeasure: function(measure) {
+   if (measure !== PMVIS.AQI
+     || measure !== PMVIS.PM_10
+       || measure !== PMVIS.PM_2_5) {
+     return;
+   }
+   this.currentMeasure = measure;
+ },
+
+ scheduleChangeMeasure: function(nextMeasure) {
+   if (nextMeasure !== PMVIS.AQI
+     || nextMeasure !== PMVIS.PM_10
+       || nextMeasure !== PMVIS.PM_2_5) {
+     return;
+   }
+   this._isChangingMeasure = true;
+   this.nextMeasure = nextMeasure;
+   var nextMeasureData = this._getMeasureData(this.nextMeasure);
+    this.indicators.forEach(function(element) {
+      var city = element.city;
+      var cityAir = nextMeasureData[city];
+      var height = _this.airQualityToHeight(cityAir);
+      element.changeHeight(height);
+    });
+
+   PMVIS.eventPool.dispatchEvent(PMVIS.ChangeMeasureStart, {nextMeasure: this.nextMeasure});
+ },
+
+ _getMeasureData: function(measure) {
+   var result = null;
+   if (measure === PMVIS.AQI) {
+     result = PMVIS.TODAY_CITY_AIR;
+   } else if (measure === PMVIS.PM_2_5) {
+     result = PMVIS.TODAY_CITY_AIR_PM_2_5;
+   } else if (measure === PMVIS.PM_10) {
+     result = PMVIS.TODAY_CITY_AIR_PM_10;
+   }
+   return result;
+ },
+
+ getCurrentMeasureData: function() {
+   return this._getMeasureData(this.currentMeasure);
+ },
+
   setCity: function(city) {
     this.city = city;
     this._initIndicatorCoordsAndHeight();
@@ -46,11 +100,12 @@ PMVIS.CityIndicators.prototype = {
   _initIndicatorCoordsAndHeight: function() {
     if (this.city) {
       var cityCoords = PMVIS.CITY_POS[this.city];
+      var currentAirObject = this.getCurrentMeasureData();
       if (cityCoords) {
         var index = 0;
         for (var city in cityCoords) {
           var coord = cityCoords[city];
-          var airQuality = PMVIS.TODAY_CITY_AIR[city];
+          var airQuality = currentAirObject[city];
           this.indicators[index].city = city;
           this.indicators[index].setPos(coord.x, 0, coord.z);
           this.indicators[index].setHeight(this.airQualityToHeight(airQuality));
@@ -63,7 +118,11 @@ PMVIS.CityIndicators.prototype = {
   },
 
   airQualityToHeight: function(airQuality) {
-    return airQuality / 2;
+    var result;
+    result = airQuality / 1.5;
+    result = result < 35 ? 35 : result;
+    result = result > 300 ? 300 : result;
+    return result;
   },
 
   changeCity: function(city) {
@@ -111,6 +170,7 @@ PMVIS.CityIndicators.prototype = {
   update: function() {
     var updateCount = 0;
     var changeDayCount = 0;
+    var changeMeasureCount = 0;
     for (var i = 0; i < this.currentAreaCityCount; i++) {
       this.indicators[i].update();
       if (this.indicators[i].isUpdateFinish()) {
@@ -118,6 +178,9 @@ PMVIS.CityIndicators.prototype = {
       }
       if (this.indicators[i].isChangeHeightFinish() && this._isChangingToNextDay) {
         changeDayCount++;
+      }
+      if (this.indicators[i].isChangeHeightFinish() && this._isChangingMeasure) {
+        changeMeasureCount++;
       }
     }
     if (updateCount === this.currentAreaCityCount) {
@@ -128,6 +191,12 @@ PMVIS.CityIndicators.prototype = {
       console.log("dispatch IndicatorChangeToNextDayFinish");
       PMVIS.eventPool.dispatchEvent(PMVIS.IndicatorChangeToNextDayFinish,
                                     {day: this.nextDay});
+    }
+    if (changeMeasureCount === this.currentAreaCityCount && this._isChangingMeasure) {
+      this._isChangingMeasure = false;
+      this.currentMeasure = this.nextMeasure;
+      this.nextMeasure = null;
+      PMVIS.eventPool.dispatchEvent(PMVIS.ChangeMeasureFinish, {measure: this.currentMeasure});
     }
   },
 
@@ -176,9 +245,10 @@ PMVIS.CityIndicators.prototype = {
 
   resumeHeight: function() {
     var _this = this;
+    var currentAirObject = this.getCurrentMeasureData();
     this.indicators.forEach(function(element) {
       var city = element.city;
-      var cityAir = PMVIS.TODAY_CITY_AIR[city];
+      var cityAir = currentAirObject[city];
       var height = _this.airQualityToHeight(cityAir);
       element.changeHeight(height);
     });
@@ -186,6 +256,10 @@ PMVIS.CityIndicators.prototype = {
 
   isChangingToNextDay: function() {
     return this._isChangingToNextDay;
+  },
+
+  isChangingMeasure: function() {
+    return this._isChangingMeasure;
   },
 
 };

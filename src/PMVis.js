@@ -143,6 +143,15 @@ PMVIS.CityChoseSceneFinishLoad = "CityChoseSceneFinishLoad";
 PMVIS.OnTouchCityRound = "OnTouchCityRound";
 PMVIS.OnTouchNothingCityRound = "OnTouchNothingCityRound";
 PMVIS.ScheduleSwitchScene = "ScheduleSwitchScene";
+PMVIS.AirChangeToDiffMeasure = "AirChangeToDiffMeasure";
+PMVIS.ScheduleChangeMeasure = "ScheduleChangeMeasure";
+PMVIS.ChangeMeasureStart = "ChangeMeasureStart";
+PMVIS.ChangeMeasureFinish = "ChangeMeasureFinish";
+
+// air quality measurement
+PMVIS.AQI = "aqi";
+PMVIS.PM_2_5 = "pm2.5";
+PMVIS.PM_10 = "pm10";
 
 // scenes name
 PMVIS.TEST_SCENE = 'TestScene';
@@ -257,7 +266,7 @@ PMVIS.CITY_POS = {
 
 // city air data
 // it just test data here
-// today
+// today (AQI)
 PMVIS.TODAY_CITY_AIR = {
   guangzhou: 50,
   dongguan: 100,
@@ -289,14 +298,81 @@ PMVIS.TODAY_CITY_AIR = {
   zhangjiakou: 100,
   baoding: 100,
 };
-// average value
+
+// today city pm2.5
+PMVIS.TODAY_CITY_AIR_PM_2_5 = {
+  guangzhou: 50,
+  dongguan: 70,
+  huizhou: 80,
+  foshan: 75,
+  jiangmen: 80,
+  zhongshan: 100,
+  zhuhai:10,
+  shenzhen: 80,
+  zhaoqing: 100,
+  shanghai: 45,
+  suzhou: 100,
+  hangzhou: 100,
+  nanjing: 100,
+  ningbo: 100,
+  wuhan: 100,
+  wenzhou: 100,
+  hefei: 100,
+  jinhua: 100,
+  jiujiang: 100,
+  beijing: 50,
+  langfang: 100,
+  tianjin: 100,
+  tangshan: 100,
+  qinhuangdao: 100,
+  cangzhou: 100,
+  shijiangzhuang: 100,
+  dezhou: 90,
+  zhangjiakou: 100,
+  baoding: 80,
+};
+
+// today city pm10
+PMVIS.TODAY_CITY_AIR_PM_10 = {
+  guangzhou: 20,
+  dongguan: 50,
+  huizhou: 120,
+  foshan: 150,
+  jiangmen: 80,
+  zhongshan: 90,
+  zhuhai: 85,
+  shenzhen: 60,
+  zhaoqing: 80,
+  shanghai:120,
+  suzhou: 150,
+  hangzhou: 80,
+  nanjing: 90,
+  ningbo: 20,
+  wuhan: 10,
+  wenzhou: 20,
+  hefei: 150,
+  jinhua: 100,
+  jiujiang: 100,
+  beijing: 50,
+  langfang: 150,
+  tianjin: 150,
+  tangshan: 100,
+  qinhuangdao: 100,
+  cangzhou: 130,
+  shijiangzhuang: 100,
+  dezhou: 120,
+  zhangjiakou: 100,
+  baoding: 100,
+};
+
+// average value (AQI)
 PMVIS.TODAY_CITY_AVG_AIR = {
   beijing: 200,
   shanghai: 100,
   guangzhou: 50
 };
 
-// last seven days
+// last seven days (AQI)
 PMVIS.LAST_SEVEN_DAY_AIR = {
   "2014.3.11": {
     guangzhou: 150,

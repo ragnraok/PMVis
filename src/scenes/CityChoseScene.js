@@ -142,13 +142,13 @@ PMVIS.CityChoseScene.prototype.update = function() {
     }
   }
   if (roundCount === this.rounds.length && !this._isSetMouseObject) {
-      this.renderScene.setMouseIntersectObjects(this.rounds);
-      this._isSetMouseObject = true;
+    this.renderScene.setMouseIntersectObjects(this.rounds);
+    this._isSetMouseObject = true;
   }
   if (roundCount === this.rounds.length && !this._isDipatchFinishLoadEvent) {
-      PMVIS.eventPool.dispatchEvent(PMVIS.CityChoseSceneFinishLoad);
-      this._isDipatchFinishLoadEvent = true;
-     }
+    PMVIS.eventPool.dispatchEvent(PMVIS.CityChoseSceneFinishLoad);
+    this._isDipatchFinishLoadEvent = true;
+  }
 };
 
 PMVIS.CityChoseScene.prototype.onTouchRound = function(object) {
@@ -159,6 +159,7 @@ PMVIS.CityChoseScene.prototype.onTouchRound = function(object) {
   for (var i = 0; i < this.rounds.length; i++) {
     this.rounds[i].onUnTouch();
   }
+  console.log("touch " + object.city);
   this.renderScene.container.style.cursor = 'pointer';
   object.onTouch();
   this.currentSelectRound = object;
@@ -178,7 +179,7 @@ PMVIS.CityChoseScene.prototype.onTouchNothing = function() {
 
 PMVIS.CityChoseScene.prototype.handleMouseUp = function() {
   if (this.currentSelectRound) {
-    //console.log("choose {0}".format(this.currentSelectRound.city));
+    console.log("choose {0}".format(this.currentSelectRound.city));
     PMVIS.eventPool.dispatchEvent(PMVIS.StartSceneChooseCity,
                                   {city: this.currentSelectRound.city})
   }
