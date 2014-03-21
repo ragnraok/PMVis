@@ -17,8 +17,8 @@ PMVIS.CityScene = function(renderScene, city) {
   this.areaHistoryManager.init();
 
   this.headerMenuManager = new PMVIS.HeaderMenuManager();
-
   this.leftMenuManager = new PMVIS.LeftMenuManager();
+  this.cityModalManager = new PMVIS.CityModalManager();
 
 };
 
@@ -148,7 +148,7 @@ PMVIS.CityScene.prototype.update = function() {
 PMVIS.CityScene.prototype.handleMouseUp = function(event) {
   if (this.currentSelectIndicator) {
     event.preventDefault();
-    //console.log("click city: {0}".format(this.currentSelectIndicator.city));
+    console.log("click city: {0}".format(this.currentSelectIndicator.city));
     PMVIS.eventPool.dispatchEvent(PMVIS.OnClickCityIndicator, {city: this.currentSelectIndicator.city});
   }
 };

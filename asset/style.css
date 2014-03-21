@@ -314,7 +314,10 @@ body {
 
 .modal-content {
   height: 450px;
+  width: 650px;
   margin: 0px;
+  padding: 0px;
+  text-align: center;
 }
 .modal-point-data {
   margin-top: 5px;
@@ -322,7 +325,7 @@ body {
   font-size: 15px;
 }
 .modal-box {
-  width: 60%;
+  width: 700px;
 }
 
 /**

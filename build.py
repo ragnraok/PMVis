@@ -51,7 +51,7 @@ def build():
 
     print "\n"
 
-    _build_libs()
+    #_build_libs()
 
 if __name__ == '__main__':
     build()

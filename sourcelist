@@ -10,6 +10,7 @@ src/manager/DomManager.js
 src/manager/CityChoseManager.js
 src/manager/AppManager.js
 src/manager/LeftMenuManager.js
+src/manager/CityModalManager.js
 src/objects/CityIndicators.js
 src/objects/CityPlane.js
 #src/objects/Cloud.js
