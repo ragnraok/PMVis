@@ -29,8 +29,8 @@ PMVIS.CityModalManager.prototype = {
           PMVIS.DomManager.cityGraphAirQuality.text(row.value);
         },
         resize: true,
-        grid: true,
-        //axes: false,
+        grid: false,
+        axes: false,
         parseTime: false,
         ymax: "auto[300]",
       });

@@ -314,7 +314,7 @@ body {
 
 .modal-content {
   height: 450px;
-  width: 700px;
+  width: 750px;
   margin: 0px;
   padding: 0px;
   text-align: center;
@@ -325,7 +325,7 @@ body {
   font-size: 15px;
 }
 .modal-box {
-  width: 700px;
+  width: 750px;
 }
 
 /**
