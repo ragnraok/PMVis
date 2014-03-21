@@ -19,6 +19,8 @@ show the last seven days condition:
 * [three.js][4]
 * [jQuery][5]
 * [ThreeCSG][6]
+* [morris.js][7]
+* [jquery-modal][8]
 
 
 ### Development
@@ -59,3 +61,5 @@ THE SOFTWARE.
 [4]: https://github.com/mrdoob/three.js
 [5]: https://jquery.org/
 [6]: https://github.com/chandlerprall/ThreeCSG
+[7]: https://github.com/morrisjs/morris.js
+[8]: https://github.com/kylefox/jquery-modal

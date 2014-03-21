@@ -1,6 +1,8 @@
 *.swp
 *.swo
 .DS_Store
+pmvis.js
+libs.js
 headerMenuTest.html
 loadingTest.html
 startSceneTest.html
