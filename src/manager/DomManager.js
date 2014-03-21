@@ -27,7 +27,7 @@ PMVIS.DomManager = (function() {
     appContent: "#app-content",
     leftMenu: "#air-measurement-menu",
     aqiButton: "#aqi",
-    pm25Button: "#pm2.5",
+    pm25Button: "#pm25",
     pm10Button: "#pm10",
   };
 

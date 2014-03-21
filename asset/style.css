@@ -297,6 +297,7 @@ body {
   left: 20px;
   top: 120px;
   position: absolute;
+  display: none;
 }
 .left-menu-button-selected {
   background: rgba(220, 220, 220, 0.2);

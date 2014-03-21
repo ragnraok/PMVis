@@ -18,6 +18,8 @@ PMVIS.CityScene = function(renderScene, city) {
 
   this.headerMenuManager = new PMVIS.HeaderMenuManager();
 
+  this.leftMenuManager = new PMVIS.LeftMenuManager();
+
 };
 
 PMVIS.CityScene.prototype = Object.create(PMVIS.BaseScene.prototype);
@@ -31,7 +33,7 @@ PMVIS.CityScene.prototype.init = function() {
   this.add({object: this.cityPlane});
   this.cityPlane.reset();
 
-  this.indicators = new PMVIS.CityIndicators("guangzhou");
+  this.indicators = new PMVIS.CityIndicators("guangzhou", PMVIS.AQI);
   this.indicators.reset();
   this.indicators.addToScene(this);
 
@@ -122,6 +124,7 @@ PMVIS.CityScene.prototype.dismiss = function() {
   this.renderScene.renderer.domElement.removeEventListener('mouseup', this.handleMouseUp, false);
   this.headerMenuManager.dismissMenu();
   this.areaHistoryManager.dismissBottomMenu();
+  this.leftMenuManager.dismissMenu();
 };
 
 PMVIS.CityScene.prototype.update = function() {

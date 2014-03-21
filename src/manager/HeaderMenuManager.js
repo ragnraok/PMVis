@@ -63,6 +63,12 @@ PMVIS.HeaderMenuManager.prototype = {
     });
     PMVIS.eventPool.addEventListener(PMVIS.AreaHistoryStart, this.onHistoryStart);
     PMVIS.eventPool.addEventListener(PMVIS.AreaHistoryFinish, this.onHistoryEnd);
+    PMVIS.eventPool.addEventListener(PMVIS.ChangeMeasureStart, function(event) {
+      _this._disableButtons();
+    });
+    PMVIS.eventPool.addEventListener(PMVIS.ChangeMeasureFinish, function(event) {
+      _this._initButtons();
+    });
 
     this._initButtons();
     this.handleCityButtons();

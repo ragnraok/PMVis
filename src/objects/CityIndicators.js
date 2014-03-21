@@ -3,7 +3,7 @@
  * CityIndicators, a set of indicators for a city
  */
 
-PMVIS.CityIndicators = function(city) {
+PMVIS.CityIndicators = function(city, measure) {
   this.city = city || "guangzhou";
   this.currentAreaCityCount = 0;
   this.indicators = [];
@@ -14,7 +14,7 @@ PMVIS.CityIndicators = function(city) {
   this.changeToNextDay = this.changeToNextDay.bind(this);
   this.resumeHeight = this.resumeHeight.bind(this);
 
-  this.currentMeasure = PMVIS.AQI;
+  this.currentMeasure = measure || PMVIS.AQI;
   this.nextMeasure = null;
   this._isChangingMeasure = false;
 
@@ -50,8 +50,8 @@ PMVIS.CityIndicators.prototype = {
 
  setCurrentAirMeasure: function(measure) {
    if (measure !== PMVIS.AQI
-     || measure !== PMVIS.PM_10
-       || measure !== PMVIS.PM_2_5) {
+     && measure !== PMVIS.PM_10
+       && measure !== PMVIS.PM_2_5) {
      return;
    }
    this.currentMeasure = measure;
@@ -59,19 +59,20 @@ PMVIS.CityIndicators.prototype = {
 
  scheduleChangeMeasure: function(nextMeasure) {
    if (nextMeasure !== PMVIS.AQI
-     || nextMeasure !== PMVIS.PM_10
-       || nextMeasure !== PMVIS.PM_2_5) {
+     && nextMeasure !== PMVIS.PM_10
+       && nextMeasure !== PMVIS.PM_2_5) {
      return;
    }
    this._isChangingMeasure = true;
    this.nextMeasure = nextMeasure;
    var nextMeasureData = this._getMeasureData(this.nextMeasure);
-    this.indicators.forEach(function(element) {
-      var city = element.city;
-      var cityAir = nextMeasureData[city];
-      var height = _this.airQualityToHeight(cityAir);
-      element.changeHeight(height);
-    });
+   var _this = this;
+   this.indicators.forEach(function(element) {
+     var city = element.city;
+     var cityAir = nextMeasureData[city];
+     var height = _this.airQualityToHeight(cityAir);
+     element.changeHeight(height);
+   });
 
    PMVIS.eventPool.dispatchEvent(PMVIS.ChangeMeasureStart, {nextMeasure: this.nextMeasure});
  },

@@ -144,6 +144,7 @@ PMVIS.OnTouchCityRound = "OnTouchCityRound";
 PMVIS.OnTouchNothingCityRound = "OnTouchNothingCityRound";
 PMVIS.ScheduleSwitchScene = "ScheduleSwitchScene";
 PMVIS.AirChangeToDiffMeasure = "AirChangeToDiffMeasure";
+PMVIS.ScheduleChangeMeasure = "ScheduleChangeMeasure";
 PMVIS.ChangeMeasureStart = "ChangeMeasureStart";
 PMVIS.ChangeMeasureFinish = "ChangeMeasureFinish";
 
@@ -928,6 +929,12 @@ PMVIS.HeaderMenuManager.prototype = {
     });
     PMVIS.eventPool.addEventListener(PMVIS.AreaHistoryStart, this.onHistoryStart);
     PMVIS.eventPool.addEventListener(PMVIS.AreaHistoryFinish, this.onHistoryEnd);
+    PMVIS.eventPool.addEventListener(PMVIS.ChangeMeasureStart, function(event) {
+      _this._disableButtons();
+    });
+    PMVIS.eventPool.addEventListener(PMVIS.ChangeMeasureFinish, function(event) {
+      _this._initButtons();
+    });
 
     this._initButtons();
     this.handleCityButtons();
@@ -1486,6 +1493,10 @@ PMVIS.DomManager = (function() {
     lastUpdate: "#last-update-date",
     loadingBox: "#loading-box",
     appContent: "#app-content",
+    leftMenu: "#air-measurement-menu",
+    aqiButton: "#aqi",
+    pm25Button: "#pm25",
+    pm10Button: "#pm10",
   };
 
   for (var v in domMap) {
@@ -1616,10 +1627,123 @@ PMVIS.AppManager.prototype = {
 };
 /**
  * author ragnarok
+ * LeftMenuManager
+ */
+PMVIS.LeftMenuManager = function() {
+  this.SELECTED_CLASS = "left-menu-button-selected";
+  this.currentMeasure = PMVIS.AQI;
+  this.bindAll();
+  this.init();
+};
+
+PMVIS.LeftMenuManager.prototype = {
+  bindAll: function() {
+    for (var v in this) {
+      if (typeof v === 'function') {
+        this.v = this.v.bind(this);
+      }
+    }
+  },
+
+  init: function() {
+    this.initButtons();
+    PMVIS.DomManager.aqiButton.addClass(this.SELECTED_CLASS);
+
+    var _this = this;
+
+    PMVIS.eventPool.addEventListener(PMVIS.ChangeMeasureStart, function() {
+      _this.disableButtons();
+    });
+    PMVIS.eventPool.addEventListener(PMVIS.ChangeMeasureFinish, function() {
+      _this.initButtons();
+    });
+    PMVIS.eventPool.addEventListener(PMVIS.CitySceneLoadFinish, function() {
+      _this.showMenu();
+    });
+    PMVIS.eventPool.addEventListener(PMVIS.ChangeCityStart, function() {
+      _this.disableButtons();
+    });
+    PMVIS.eventPool.addEventListener(PMVIS.ChangeCityFinish, function() {
+      _this.initButtons();
+    });
+    PMVIS.eventPool.addEventListener(PMVIS.AreaHistoryStart, function() {
+      _this.disableButtons();
+    });
+    PMVIS.eventPool.addEventListener(PMVIS.AreaHistoryFinish, function() {
+      _this.initButtons();
+    });
+  },
+
+  showMenu: function() {
+    PMVIS.DomManager.leftMenu.css("display", "inline");
+    PMVIS.DomManager.leftMenu.animate({
+      opacity: 1.0,
+    }, 300);
+  },
+
+  dismissMenu: function() {
+    var _this = this;
+    PMVIS.DomManager.leftMenu.animate({
+      opacity: 0.0,
+    }, 300, function() {
+      PMVIS.DomManager.leftMenu.css("display", "none");
+    });
+  },
+
+  initButtons: function() {
+    var _this = this;
+    PMVIS.DomManager.aqiButton.click(function() {
+      if (_this.currentMeasure === PMVIS.AQI) {
+        return;
+      }
+      PMVIS.DomManager.aqiButton.addClass(_this.SELECTED_CLASS);
+
+      PMVIS.DomManager.pm25Button.removeClass(_this.SELECTED_CLASS);
+      PMVIS.DomManager.pm10Button.removeClass(_this.SELECTED_CLASS);
+
+      PMVIS.eventPool.dispatchEvent(PMVIS.ScheduleChangeMeasure, {measure: PMVIS.AQI});
+      _this.currentMeasure = PMVIS.AQI;
+    });
+
+    PMVIS.DomManager.pm25Button.click(function() {
+      if (_this.currentMeasure === PMVIS.PM_2_5) {
+        return;
+      }
+      PMVIS.DomManager.pm25Button.addClass(_this.SELECTED_CLASS);
+
+      PMVIS.DomManager.aqiButton.removeClass(_this.SELECTED_CLASS);
+      PMVIS.DomManager.pm10Button.removeClass(_this.SELECTED_CLASS);
+
+      PMVIS.eventPool.dispatchEvent(PMVIS.ScheduleChangeMeasure, {measure: PMVIS.PM_2_5});
+      _this.currentMeasure = PMVIS.PM_2_5;
+    });
+
+    PMVIS.DomManager.pm10Button.click(function() {
+      if (_this.currentMeasure === PMVIS.PM_10) {
+        return;
+      }
+      PMVIS.DomManager.pm10Button.addClass(_this.SELECTED_CLASS);
+
+      PMVIS.DomManager.aqiButton.removeClass(_this.SELECTED_CLASS);
+      PMVIS.DomManager.pm25Button.removeClass(_this.SELECTED_CLASS);
+
+      PMVIS.eventPool.dispatchEvent(PMVIS.ScheduleChangeMeasure, {measure: PMVIS.PM_10});
+      _this.currentMeasure = PMVIS.PM_10;
+    });
+  },
+
+  disableButtons: function() {
+    PMVIS.DomManager.aqiButton.off('click');
+    PMVIS.DomManager.pm25Button.off('click');
+    PMVIS.DomManager.pm10Button.off('click');
+  },
+};
+/**
+ * author ragnarok
  * CityIndicators, a set of indicators for a city
  */
 
-PMVIS.CityIndicators = function(city) {
+PMVIS.CityIndicators = function(city, measure) {
   this.city = city || "guangzhou";
   this.currentAreaCityCount = 0;
   this.indicators = [];
@@ -1630,7 +1754,7 @@ PMVIS.CityIndicators = function(city) {
   this.changeToNextDay = this.changeToNextDay.bind(this);
   this.resumeHeight = this.resumeHeight.bind(this);
 
-  this.currentMeasure = PMVIS.AQI;
+  this.currentMeasure = measure || PMVIS.AQI;
   this.nextMeasure = null;
   this._isChangingMeasure = false;
 
@@ -1640,6 +1764,11 @@ PMVIS.CityIndicators = function(city) {
   });
   PMVIS.eventPool.addEventListener(PMVIS.AreaHistoryFinish, function(event) {
     setTimeout(_this.resumeHeight, 100);
+  });
+  PMVIS.eventPool.addEventListener(PMVIS.ScheduleChangeMeasure, function(event) {
+    if (event.measure) {
+      _this.scheduleChangeMeasure(event.measure);
+    }
   });
 
   this.init();
@@ -1661,8 +1790,8 @@ PMVIS.CityIndicators.prototype = {
 
  setCurrentAirMeasure: function(measure) {
    if (measure !== PMVIS.AQI
-     || measure !== PMVIS.PM_10
-       || measure !== PMVIS.PM_2_5) {
+     && measure !== PMVIS.PM_10
+       && measure !== PMVIS.PM_2_5) {
      return;
    }
    this.currentMeasure = measure;
@@ -1670,19 +1799,20 @@ PMVIS.CityIndicators.prototype = {
 
  scheduleChangeMeasure: function(nextMeasure) {
    if (nextMeasure !== PMVIS.AQI
-     || nextMeasure !== PMVIS.PM_10
-       || nextMeasure !== PMVIS.PM_2_5) {
+     && nextMeasure !== PMVIS.PM_10
+       && nextMeasure !== PMVIS.PM_2_5) {
      return;
    }
    this._isChangingMeasure = true;
    this.nextMeasure = nextMeasure;
    var nextMeasureData = this._getMeasureData(this.nextMeasure);
-    this.indicators.forEach(function(element) {
-      var city = element.city;
-      var cityAir = nextMeasureData[city];
-      var height = _this.airQualityToHeight(cityAir);
-      element.changeHeight(height);
-    });
+   var _this = this;
+   this.indicators.forEach(function(element) {
+     var city = element.city;
+     var cityAir = nextMeasureData[city];
+     var height = _this.airQualityToHeight(cityAir);
+     element.changeHeight(height);
+   });
 
    PMVIS.eventPool.dispatchEvent(PMVIS.ChangeMeasureStart, {nextMeasure: this.nextMeasure});
  },
@@ -2882,6 +3012,8 @@ PMVIS.CityScene = function(renderScene, city) {
 
   this.headerMenuManager = new PMVIS.HeaderMenuManager();
 
+  this.leftMenuManager = new PMVIS.LeftMenuManager();
+
 };
 
 PMVIS.CityScene.prototype = Object.create(PMVIS.BaseScene.prototype);
@@ -2895,7 +3027,7 @@ PMVIS.CityScene.prototype.init = function() {
   this.add({object: this.cityPlane});
   this.cityPlane.reset();
 
-  this.indicators = new PMVIS.CityIndicators("guangzhou");
+  this.indicators = new PMVIS.CityIndicators("guangzhou", PMVIS.AQI);
   this.indicators.reset();
   this.indicators.addToScene(this);
 
@@ -2986,6 +3118,7 @@ PMVIS.CityScene.prototype.dismiss = function() {
   this.renderScene.renderer.domElement.removeEventListener('mouseup', this.handleMouseUp, false);
   this.headerMenuManager.dismissMenu();
   this.areaHistoryManager.dismissBottomMenu();
+  this.leftMenuManager.dismissMenu();
 };
 
 PMVIS.CityScene.prototype.update = function() {
