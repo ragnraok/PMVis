@@ -33,6 +33,7 @@ PMVIS.DomManager = (function() {
     cityGraph: "#graph-content",
     cityGraphAirDate: "#air-date",
     cityGraphAirQuality: "#air-quality",
+    cityGraphCityname: "#modal-city-name",
   };
 
   for (var v in domMap) {

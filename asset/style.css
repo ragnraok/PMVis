@@ -323,6 +323,16 @@ body {
   margin-top: 5px;
   margin-left: 5px;
   font-size: 15px;
+  height: 50px;
+}
+.modal-point-data-left {
+  float: left;
+  width: 200px;
+}
+.modal-point-data-right {
+  float: right;
+  font-size: 15px;
+  margin-right: 20px;
 }
 .modal-box {
   width: 750px;

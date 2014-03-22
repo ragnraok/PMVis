@@ -14,6 +14,7 @@ PMVIS.CityModalManager = function() {
 
 PMVIS.CityModalManager.prototype = {
   showModal: function(city) {
+    PMVIS.DomManager.cityGraphCityname.text(city[0].toUpperCase() + city.substring(1));
     console.log("showcity " + city);
     var data = this.getGraphData(city);
     console.log(data);
