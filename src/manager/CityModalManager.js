@@ -42,6 +42,8 @@ PMVIS.CityModalManager.prototype = {
       fadeDuration: 500,
       fadeDelay: 0.0,
     });
+    // little hack fro jquery-modal,
+    // remove the dark blocker
     $(".blocker").remove();
   },
 
