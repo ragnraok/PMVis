@@ -42,6 +42,7 @@ PMVIS.CityModalManager.prototype = {
       fadeDuration: 500,
       fadeDelay: 0.0,
     });
+    $(".blocker").remove();
   },
 
   getGraphData: function(city) {
