@@ -109,16 +109,38 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal-box">
-      <div class="modal-content" id="graph-content">
+    <div class="modal-box" style="display:none">
+      <div class="modal-header-menu" id="modal-menu">
+        <div class="modal-header-button" id="modal-history-button">History</div>
+        <div class="modal-header-button" id="modal-today-button">Today</div>
       </div>
-      <div class="modal-point-data">
-        <div class="modal-point-data-left">
-          <p>Date: <span id="air-date"></span></p>
-          <p>AQI: <span id="air-quality"></span></p>
+      <div class="modal-content" id="modal-history-tab">
+        <div class="modal-history-content" id="graph-content">
         </div>
-        <div class="modal-point-data-right">
-          <p><span id="modal-city-name">ZhongShan</span>'s AQI in the last seven days</p>
+        <div class="modal-point-data">
+          <div class="modal-point-data-left">
+            <p>Date: <span id="air-date"></span></p>
+            <p>AQI: <span id="air-quality"></span></p>
+          </div>
+          <div class="modal-point-data-right">
+            <p><span id="modal-city-name">ZhongShan</span>'s AQI in the last seven days</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-content" id="modal-today-tab"  style="display:none">
+        <div id="modal-today-indicator-container">
+          <div class="modal-today-indicator">
+            <p class="modal-indicator-value" id="modal-aqi-value">155</p>
+            <p class="modal-indicator-type">AQI</p>
+          </div>
+          <div class="modal-today-indicator">
+            <p class="modal-indicator-value" id="modal-pm25-value">100</p>
+            <p class="modal-indicator-type">PM2.5</p>
+          </div>
+          <div class="modal-today-indicator">
+            <p class="modal-indicator-value" id="modal-pm10-value">120</p>
+            <p class="modal-indicator-type">PM10</p>
+          </div>
         </div>
       </div>
     </div>

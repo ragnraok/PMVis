@@ -34,6 +34,13 @@ PMVIS.DomManager = (function() {
     cityGraphAirDate: "#air-date",
     cityGraphAirQuality: "#air-quality",
     cityGraphCityname: "#modal-city-name",
+    modalHistoryButton: "#modal-history-button",
+    modalTodayButton: "#modal-today-button",
+    modalHistoryTab: "#modal-history-tab",
+    modalTodayTab: "#modal-today-tab",
+    modalAQIValue: "#modal-aqi-value",
+    modalPM25Value: "#modal-pm25-value",
+    modalPM10Value: "#modal-pm10-value",
   };
 
   for (var v in domMap) {
