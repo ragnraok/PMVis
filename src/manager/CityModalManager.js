@@ -16,25 +16,20 @@ PMVIS.CityModalManager = function() {
   this.TODAY_TAB = 2;
   this.currentTab = this.HISTORY_TAB;
   this.SELECTED_CLASS = "modal-header-button-selected";
+
+  this.switchTab = this.switchTab.bind(this);
 };
 
 PMVIS.CityModalManager.prototype = {
   showModal: function(city) {
     if (!this._isInitButtons) {
       this.initButtons();
-      this.initTodayTab();
       this._isInitButtons = true;
     }
-    PMVIS.DomManager.modalTodayTab.css("display", "none");
-    PMVIS.DomManager.modalHistoryTab.css("display", "inline");
-    this.currentTab = this.HISTORY_TAB;
-    PMVIS.DomManager.modalHistoryButton.addClass(this.SELECTED_CLASS);
-    PMVIS.DomManager.modalTodayButton.removeClass(this.SELECTED_CLASS);
-
+    this.initTodayTab();
+    this.switchTab(this.HISTORY_TAB);
     PMVIS.DomManager.cityGraphCityname.text(city[0].toUpperCase() + city.substring(1));
-    console.log("showcity " + city);
     var data = this.getGraphData(city);
-    console.log(data);
     if (this.graph === null) {
       this.graph = new Morris.Area({
         element: PMVIS.DomManager.cityGraph,
@@ -85,6 +80,22 @@ PMVIS.CityModalManager.prototype = {
     }
   },
 
+  switchTab: function(tab) {
+    if (tab == this.HISTORY_TAB) {
+      PMVIS.DomManager.modalTodayTab.css("display", "none");
+      PMVIS.DomManager.modalHistoryTab.css("display", "inline");
+      this.currentTab = this.HISTORY_TAB;
+      PMVIS.DomManager.modalHistoryButton.addClass(this.SELECTED_CLASS);
+      PMVIS.DomManager.modalTodayButton.removeClass(this.SELECTED_CLASS);
+    } else if (tab == this.TODAY_TAB) {
+      PMVIS.DomManager.modalTodayTab.css("display", "inline");
+      PMVIS.DomManager.modalHistoryTab.css("display", "none");
+      this.currentTab = this.TODAY_TAB;
+      PMVIS.DomManager.modalHistoryButton.removeClass(this.SELECTED_CLASS);
+      PMVIS.DomManager.modalTodayButton.addClass(this.SELECTED_CLASS);
+    }
+  },
+
   initButtons: function() {
     PMVIS.DomManager.modalHistoryButton.addClass(this.SELECTED_CLASS);
     PMVIS.DomManager.modalTodayButton.removeClass(this.SELECTED_CLASS);
@@ -94,21 +105,13 @@ PMVIS.CityModalManager.prototype = {
       if (_this.currentTab === _this.HISTORY_TAB) {
         return;
       }
-      PMVIS.DomManager.modalTodayTab.css("display", "none");
-      PMVIS.DomManager.modalHistoryTab.css("display", "inline");
-      _this.currentTab = _this.HISTORY_TAB;
-      PMVIS.DomManager.modalHistoryButton.addClass(_this.SELECTED_CLASS);
-      PMVIS.DomManager.modalTodayButton.removeClass(_this.SELECTED_CLASS);
+      _this.switchTab(_this.HISTORY_TAB);
     });
     PMVIS.DomManager.modalTodayButton.click(function() {
       if (_this.currentTab === _this.TODAY_TAB) {
         return;
       }
-      PMVIS.DomManager.modalTodayTab.css("display", "inline");
-      PMVIS.DomManager.modalHistoryTab.css("display", "none");
-      _this.currentTab = _this.TODAY_TAB;
-      PMVIS.DomManager.modalHistoryButton.removeClass(_this.SELECTED_CLASS);
-      PMVIS.DomManager.modalTodayButton.addClass(_this.SELECTED_CLASS);
+      _this.switchTab(_this.TODAY_TAB);
     });
   },
 };
