@@ -27,6 +27,8 @@ PMVIS.SceneManager.prototype = {
     this.sceneSwitcher = new PMVIS.SceneSwitcher();
     var _this = this;
     this.sceneSwitcher.afterSwitchFinish = function(currentScene, nextScene) {
+      currentScene.dismiss();
+      nextScene.prepare();
       _this.currentScene = nextScene;
       _this.previousScene = currentScene;
       PMVIS.eventPool.dispatchEvent(PMVIS.SceneSwitchFinish,

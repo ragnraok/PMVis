@@ -45,8 +45,8 @@ PMVIS.SceneSwitcher.prototype = {
         opacityCount += 1;
       }
       if (opacityCount === childCount) {
-        _this.currentScene.dismiss();
-        _this.nextScene.prepare();
+        //_this.currentScene.dismiss();
+        //_this.nextScene.prepare();
         _this.isFinishSwitch = true;
         if (_this.afterSwitchFinish) {
           _this.afterSwitchFinish.call(null, _this.currentScene, _this.nextScene);
